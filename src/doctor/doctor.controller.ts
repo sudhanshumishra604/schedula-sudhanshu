@@ -5,6 +5,8 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { Param } from '@nestjs/common';
+import { Query } from '@nestjs/common';
+import { FilterDoctorDto } from './dto/filter-doctor.dto';
 
 
 @Controller('doctor')
@@ -32,5 +34,16 @@ export class DoctorController {
     update( @Param('id') id: number,
             @Body() createDoctorDto: CreateDoctorDto) {
       return this.doctorService.update(id, createDoctorDto);
+    }
+    @Get()
+    findAll(
+      @Query() filterDoctorDto: FilterDoctorDto,
+    ) {
+      return this.doctorService.findAll(filterDoctorDto);
+    }
+
+    @Get(':id')
+    findOne(@Param('id') id: string) {
+      return this.doctorService.findOne(+id);
     }
 }
